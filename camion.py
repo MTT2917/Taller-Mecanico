@@ -1,9 +1,10 @@
-from vehiculo import Vehiculo # Importa la clase base Vehiculo desde vehiculo.py
+from vehiculo import Vehiculo
+from modelo import Modelo
 
-class Camion(Vehiculo): # Define la clase Camion heredando de Vehiculo
-    def __init__(self, patente: str, anio: int, capacidad_carga: int): # Constructor de Camion que recibe patente, año y capacidad de carga
-        super().__init__(patente, anio) # Llama al constructor de la clase padre Vehiculo para inicializar patente y año
-        self.__capacidad_carga: int = capacidad_carga # Guarda la capacidad de carga en kilos como atributo privado
+class Camion(Vehiculo):
+    def __init__(self, patente: str, anio: int, modelo: Modelo, capacidad_carga: int):
+        super().__init__(patente, anio, modelo)
+        self.__capacidad_carga: int = capacidad_carga
 
-    def tarifa_hora(self) -> int: # Método que sobrescribe la tarifa por hora para Camion
-        return 40000 # Retorna un valor fijo de 40000 para camion
+    def tarifa_hora(self) -> int:
+        return 40000

@@ -1,27 +1,69 @@
-from vehiculo import Vehiculo # Importa la clase base Vehiculo desde vehiculo.py
-from auto import Auto # Importa la clase Auto desde el archivo local auto.py
-from moto import Moto # Importa la clase Moto desde el archivo local moto.py
-from camion import Camion # Importa la clase Camion desde el archivo local camion.py
+from marca import Marca
+from modelo import Modelo
+from auto import Auto
+from moto import Moto
+from camion import Camion
+from persona import Persona
+from cliente import Cliente
+from rol import Rol
+from usuario import Usuario
+from repuesto import Repuesto
+from ordentrabajo import OrdenTrabajo
 
-# Instanciación de objetos
-vehiculo_base = Vehiculo("BASE01", 2015) # Instancia un objeto Vehiculo base
-auto = Auto("AB1234", 2018, 200) # Instancia un objeto Auto con capacidad de maletero
-moto = Moto("CD5678", 2020) # Instancia un objeto Moto
-camion = Camion("EF9012", 2023, 5000) # Instancia un objeto Camion con capacidad de carga
+def main():
+    # 1. Crear Marcas y Modelos
+    marca_toyota = Marca("Toyota")
+    modelo_yaris = Modelo("Yaris", marca_toyota)
 
-# Pruebas de ingreso al taller
-print(auto.ingresar()) # Ejecuta ingresar() del auto
-print(moto.ingresar()) # Ejecuta ingresar() de la moto
-print(camion.ingresar()) # Ejecuta ingresar() del camión
+    marca_honda = Marca("Honda")
+    modelo_cbr = Modelo("CBR500R", marca_honda)
 
-# Pruebas de encapsulamiento y asignación de patente
-pruebaEnc = camion.patente # Obtiene la patente del camión
-camion.set_patente("EF9012") # Asigna una nueva patente válida usando el método setter
-print(f"Patente obtenida: {pruebaEnc}") # Imprime la patente obtenida
+    marca_volvo = Marca("Volvo")
+    modelo_fh = Modelo("FH16", marca_volvo)
 
+    # 2. Instanciar Vehículos
+    auto = Auto("AB1234", 2018, modelo_yaris)
+    moto = Moto("CD5678", 2020, modelo_cbr)
+    camion = Camion("EF9012", 2023, modelo_fh, 5000)
 
-# Pruebas de tarifa_hora()
-print(f"Tarifa por hora Vehiculo Base: ${vehiculo_base.tarifa_hora()}") # Tarifa base (5000)
-print(f"Tarifa por hora Auto: ${auto.tarifa_hora()}") # Tarifa sobreescrita Auto (25000)
-print(f"Tarifa por hora Moto: ${moto.tarifa_hora()}") # Tarifa sobreescrita Moto (15000)
-print(f"Tarifa por hora Camión: ${camion.tarifa_hora()}") # Tarifa sobreescrita Camion (40000)
+    # 3. Pruebas de ingreso al taller
+    print("--- Ingreso de Vehículos ---")
+    print(auto.ingresar())
+    print(moto.ingresar())
+    print(camion.ingresar())
+    print()
+
+    # 4. Pruebas de tarifas
+    print("--- Tarifas por Hora ---")
+    print(f"Tarifa Auto ({auto.modelo.marca.nombre} {auto.modelo.nombre}): ${auto.tarifa_hora()}")
+    print(f"Tarifa Moto ({moto.modelo.marca.nombre} {moto.modelo.nombre}): ${moto.tarifa_hora()}")
+    print(f"Tarifa Camión ({camion.modelo.marca.nombre} {camion.modelo.nombre}): ${camion.tarifa_hora()}")
+    print()
+
+    # 5. Crear Personas, Clientes y Usuarios
+    persona_mecanico = Persona("12.345.678-9", "Juan Mecánico")
+    rol_mecanico = Rol("Mecánico", ["reparar", "cerrar_orden"])
+    usuario_mecanico = Usuario("juanm", "hash123", rol_mecanico, persona_mecanico)
+
+    persona_cliente = Persona("9.876.543-2", "Pedro Cliente")
+    cliente_pedro = Cliente(persona_cliente)
+
+    # 6. Crear Orden de Trabajo
+    print("--- Gestión de Orden de Trabajo ---")
+    orden1 = OrdenTrabajo(1, "Cambio de aceite y pastillas", auto, usuario_mecanico)
+    orden1.agregar_horas(3)
+    
+    # 7. Agregar Repuestos
+    filtro = Repuesto("F-001", "Filtro de Aceite", 10, False)
+    pastillas = Repuesto("P-002", "Pastillas de freno", 5, True)
+    
+    orden1.agregar_repuesto(1, 15000, filtro)
+    orden1.agregar_repuesto(1, 45000, pastillas)
+    
+    # 8. Calcular Total y Cerrar
+    print(f"Total de Orden #1 (Mano de obra + Repuestos): ${orden1.total()}")
+    orden1.cerrar()
+    print("Orden cerrada exitosamente.")
+
+if __name__ == "__main__":
+    main()
