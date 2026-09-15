@@ -1,5 +1,5 @@
-from vehiculo import Vehiculo
-from modelo import Modelo
+from model.vehiculo import Vehiculo  # Import corregido hacia el paquete model
+from model.modelo import Modelo  # Import corregido hacia el paquete model
 
 class Auto(Vehiculo):
     def __init__(self, patente: str, anio: int, modelo: Modelo):

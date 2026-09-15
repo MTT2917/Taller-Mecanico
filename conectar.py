@@ -1,7 +1,7 @@
 import sqlite3
-from marca import Marca
-from modelo import Modelo
-from auto import Auto
+from model.marca import Marca  # Import corregido hacia el paquete model
+from model.modelo import Modelo  # Import corregido hacia el paquete model
+from model.auto import Auto  # Import corregido hacia el paquete model
 
 
 conexion = sqlite3.connect("taller.db")
