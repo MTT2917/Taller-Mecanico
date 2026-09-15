@@ -1,30 +1,10 @@
 import sqlite3
-from model.marca import Marca  # Import corregido hacia el paquete model
-from model.modelo import Modelo  # Import corregido hacia el paquete model
-from model.auto import Auto  # Import corregido hacia el paquete model
 
-
-conexion = sqlite3.connect("taller.db")
-
-cursor = conexion.cursor()
-
-cursor.execute("""CREATE TABLE IF NOT EXISTS Vehiculo(
-             patente TEXT PRIMARY KEY,
-             modelo TEXT,
-             en_taller INTEGER)""")
-marca = Marca("Toyota")
-modelo = Modelo("Yaris", marca)
-
-auto = Auto("AB1234", 2027, modelo)
-
-#cursor.execute("INSERT INTO Vehiculo (patente, modelo, en_taller) VALUES (?,?,?)",
-#               (auto.patente, auto.modelo.nombre, int(auto._en_taller)))
-
-cursor.execute("Select * from Vehiculo where patente = ?",("AB1234",))
-fila= cursor.fetchone()
-print(fila)
-
-cursor.execute()
-
-conexion.commit()
-
+def crear_conexion():
+    """
+    Crea y retorna una conexión a la base de datos SQLite 'taller.db'.
+    Habilita el uso de Foreign Keys (claves foráneas) por defecto.
+    """
+    conexion = sqlite3.connect("taller.db")
+    conexion.execute("PRAGMA foreign_keys = ON")
+    return conexion
