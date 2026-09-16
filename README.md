@@ -33,3 +33,16 @@ Repositorio para la asignatura de Programación Orientada a Objetos Seguro.
   - Se importaron las subclases `Auto`, `Moto` y `Camion`.
   - Se instanciaron objetos de cada una de las clases hijas y se verificó la invocación de métodos heredados (`ingresar()` y `tarifa_hora()`).
 - **Documentación:** Código comentado línea por línea con fines pedagógicos.
+
+### 15 de Septiembre de 2026
+- **Integración con SQLite:**
+  - Creación del archivo `conectar.py` con una función `crear_conexion()` que establece la conexión a la base de datos `taller.db` y habilita el uso de Foreign Keys (`PRAGMA foreign_keys = ON`).
+- **Refactorización de Arquitectura (MVC/DAO):**
+  - Creación de los paquetes (carpetas) `model` y `dao`, añadiendo en ambos el archivo `__init__.py`.
+  - Migración de todas las clases del dominio (vehículos, personas, órdenes, etc.) a la carpeta `model` y actualización masiva de los imports en el proyecto.
+- **Implementación del Patrón DAO (Data Access Object):**
+  - **`dao.py` (Clase Base):** Gestiona la recepción de la conexión y establece el cursor para ser reutilizado.
+  - **`marca_dao.py` y `modelo_dao.py`:** Clases hijas que heredan de `Dao` e incluyen el método `crear_tabla()`. Implementan llaves foráneas (FK) relacionando un Modelo a una Marca.
+  - **`vehiculo_dao.py` y `auto_dao.py`:** Implementación de herencia relacional (Table-per-type). `AutoDao` hereda de `VehiculoDao` e invoca `super().crear_tabla()`. La tabla `autos` usa su llave primaria también como llave foránea hacia `vehiculos`.
+- **Actualización de Script Principal (`main.py`):**
+  - El código de prueba fue refactorizado y limpiado para enfocarse únicamente en inicializar los DAOs y crear (o validar la existencia de) las tablas correspondientes (`marcas`, `modelos`, `vehiculos`, `autos`).
