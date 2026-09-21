@@ -21,3 +21,7 @@ class MarcaDao(Dao):  # Define la clase MarcaDao que hereda de Dao
         """
         self.cursor.execute(sql)  # Ejecuta la consulta SQL utilizando el cursor heredado
         self.conexion.commit()  # Confirma (guarda) los cambios en la base de datos utilizando la conexión heredada
+
+    def insertar(self, marca):
+        self.cursor.execute("INSERT INTO marcas (nombre) values (?)", (marca.nombre,))
+        marca.id=self.cursor.lastrowid
